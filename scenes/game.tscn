@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://bp40xc5qfm4ka"]
+
+[ext_resource type="Texture2D" uid="uid://cic2j0f2yg5mh" path="res://assets/GameBg.png" id="1_j38cw"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_s6e3c"]
+[ext_resource type="PackedScene" uid="uid://cc7cv1hifgle7" path="res://scenes/paddle.tscn" id="2_tpb58"]
+[ext_resource type="PackedScene" uid="uid://l82klgtqygn5" path="res://scenes/gem.tscn" id="3_eusas"]
+[ext_resource type="FontFile" uid="uid://b58i18lo6mk5r" path="res://assets/Minecraft.ttf" id="5_f8hq0"]
+[ext_resource type="AudioStream" uid="uid://bmuys12klxhhu" path="res://assets/bgm_action_5.mp3" id="5_x7ipw"]
+[ext_resource type="AudioStream" uid="uid://b6ceuifdqkh6b" path="res://assets/spell1_0.wav" id="6_myuv2"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_s6e3c")
+gem_scene = ExtResource("3_eusas")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_j38cw")
+centered = false
+
+[node name="Paddle" parent="." instance=ExtResource("2_tpb58")]
+position = Vector2(581, 589)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.576471, 0.482353, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.890196, 0.592157, 0.92549, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/font_size = 48
+text = "00000"
+
+[node name="GAMEOVER" type="Label" parent="."]
+offset_left = 296.0
+offset_top = 280.0
+offset_right = 854.0
+offset_bottom = 372.0
+theme_override_colors/font_color = Color(0.905882, 0.00784314, 0.156863, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 0.392157, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_f8hq0")
+theme_override_font_sizes/font_size = 92
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_x7ipw")
+volume_db = -12.18
+autoplay = true
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_myuv2")
+
+[connection signal="area_entered" from="Paddle" to="." method="_on_paddle_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
